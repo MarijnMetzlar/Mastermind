@@ -5,9 +5,3 @@ class Demo {
 		System.out.println("Hoi3");
 	}
 }
-class Auto {
-	public static void main(String[] args)
-	{
-		System.out.println("Hoi5");
-	}
-}
