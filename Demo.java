@@ -60,7 +60,7 @@ class Demo {
 					System.exit(0);
 				}
 				else
-					System.out.println("Je moet 4 cijfers invoeren!");
+					System.out.println("Je moet 4 letters invoeren!");
 			}
 			else 
 			{
@@ -76,10 +76,15 @@ class Demo {
 				}
 				else 
 				{
-					resetAmounts();
-					System.out.println("Je hebt " + getCorrectAmount(userInput) + " letter(s) op de goeie plaats!");
-					System.out.println("Je hebt " + getWrongPosAmount(userInput) + " letter(s) op de verkeerde plaats!");
-					possibleTurns--;
+					if(!userInput.matches("^[a-f]*$"))
+						System.out.println("Je kan alleen letters van a tot f invullen!");
+					else
+					{
+						resetAmounts();
+						System.out.println("Je hebt " + getCorrectAmount(userInput) + " letter(s) op de goeie plaats!");
+						System.out.println("Je hebt " + getWrongPosAmount(userInput) + " letter(s) op de verkeerde plaats!");
+						possibleTurns--;
+					}
 				}
 			}
 		}
@@ -132,8 +137,8 @@ class Demo {
 	int getWrongPosAmount(String uInput)
 	{
 		for(int i = 0; i < wrongAmount; i++) {
-			char charWrongCodeNumber = wrongCodeLetters.charAt(i);
-			String letter = "" + charWrongCodeNumber;
+			char charWrongCodeLetter = wrongCodeLetters.charAt(i);
+			String letter = "" + charWrongCodeLetter;
 			boolean inTheCode = correctedCodeLetters.contains(letter);
 			if(inTheCode)
 			{
