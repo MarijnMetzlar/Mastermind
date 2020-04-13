@@ -10,6 +10,7 @@ class Demo {
 	
 	int possibleTurns = 20;
 	int correctAmount = 0;
+	int wrongAmount = 0;
 	int inWrongOrderAmount = 0;
 
 	public static void main(String[] args)
@@ -31,10 +32,11 @@ class Demo {
 		}
 		answer = "" + currentMastermindCode[0] + currentMastermindCode[1] + currentMastermindCode[2] + currentMastermindCode[3];
 
-		System.out.println("");
+		System.out.println("--------------------------------------------------");
 		System.out.println("Welkom bij Mastermind!");
 		System.out.println("Vul vier letters in van a tot f, en raad de code.");
 		//System.out.println("Random code is: " + answer);
+		System.out.println("--------------------------------------------------");
 		checkUserInput();
 	}
 
@@ -64,18 +66,19 @@ class Demo {
 			{
 				if(userInput.equals(answer)) 
 				{
-					System.out.println("Je hebt de code goed!");
+					System.out.println("--------------------------------------------------");
+					System.out.println("Je hebt de code goed! Gefeliciteerd!");
 					System.out.println("Bedankt voor het spelen!");
+					System.out.println("--------------------------------------------------");
 					possibleTurns = 0;
 					if(keyboardInput != null)
 						keyboardInput.close();
 				}
 				else 
 				{
-					System.out.println("De code klopt niet!");
 					resetAmounts();
-					System.out.println("Je hebt " + getCorrectAmount(userInput) + " letters op de goeie plaats!");
-					System.out.println("Je hebt " + getWrongPosAmount(userInput) + " letters op de verkeerde plaats!");
+					System.out.println("Je hebt " + getCorrectAmount(userInput) + " letter(s) op de goeie plaats!");
+					System.out.println("Je hebt " + getWrongPosAmount(userInput) + " letter(s) op de verkeerde plaats!");
 					possibleTurns--;
 				}
 			}
@@ -83,10 +86,11 @@ class Demo {
 	}
 
 	//FD: De applicatie moet niks meer hoeven doen met de vorige inputs van de gebruiker.
-	//TS: De variabelen die met de vorige inputs te maken heeft moeten worden reset.
+	//TS: De variabelen die met de vorige inputs te maken hebben moeten worden gereset.
 	void resetAmounts()
 	{
 		correctAmount = 0;
+		wrongAmount = 0;
 		inWrongOrderAmount = 0;
 		wrongCodeLetters = "";
 		correctedCodeLetters = "";
@@ -115,6 +119,7 @@ class Demo {
 				correctAmount++;
 			else {
 				wrongCodeLetters = wrongCodeLetters + charInput;
+				wrongAmount++;
 				correctedCodeLetters = correctedCodeLetters + charCode;
 			}
 		}
@@ -126,13 +131,16 @@ class Demo {
 	//TS: Sla de foute cijfers op, en check per cijfer in de code of die erin zit kijkend naar de overige cijfers die niet klopten.
 	int getWrongPosAmount(String uInput)
 	{
-		int wrongAmount = currentMastermindCode.length - correctAmount;
 		for(int i = 0; i < wrongAmount; i++) {
 			char charWrongCodeNumber = wrongCodeLetters.charAt(i);
-			String number = "" + charWrongCodeNumber;
-			boolean inTheCode = correctedCodeLetters.contains(number);
+			String letter = "" + charWrongCodeNumber;
+			boolean inTheCode = correctedCodeLetters.contains(letter);
 			if(inTheCode)
+			{
+				if(correctedCodeLetters.indexOf(letter) == correctedCodeLetters.lastIndexOf(letter))
+					correctedCodeLetters = correctedCodeLetters.replace(letter, "");
 				inWrongOrderAmount++;
+			}
 		}
 		return inWrongOrderAmount;
 	}
